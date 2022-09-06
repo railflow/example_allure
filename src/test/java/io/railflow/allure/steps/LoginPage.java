@@ -1,5 +1,6 @@
 package io.railflow.allure.steps;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.openqa.selenium.By;
@@ -16,29 +17,29 @@ public class LoginPage {
 
 	@Step("Set username")
 	public void setUserName(final String strUserName) {
-		this.driver.findElement(By.name("username")).sendKeys(strUserName);
+		this.driver.findElement(By.id("email")).sendKeys(strUserName);
 	}
 
 	@Step("Set password")
 	public void setPassword(final String strPassword) {
-		this.driver.findElement(By.name("password")).sendKeys(strPassword);
+		this.driver.findElement(By.id("password")).sendKeys(strPassword);
 	}
 
 	@Step("Click login button")
 	public void clickLogin() {
-		this.driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div[1]/form/button")).click();
+		this.driver.findElement(By.id("loginButton")).click();
 	}
 
 	@Step("Verify title of Login Page")
 	public void verifyPageTitle() {
-		final String loginPageTitle = this.driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div[1]/h1")).getText();
-		assertTrue(loginPageTitle.contains("Sign in"));
+		final String loginPageTitle = this.driver.findElement(By.xpath("/html/body/div[4]/form/h2")).getText();
+		assertEquals("Account Login", loginPageTitle);
 	}
 
 	@Step("Verify error message when invalid credential is provided")
 	public void verifyErrorMessage() {
-		final String invalidCredentialErrorMessage = this.driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div[1]/div[1]/div[2]")).getText();
-		assertTrue(invalidCredentialErrorMessage.contains("Username or password is invalid"));
+		final String invalidCredentialErrorMessage = this.driver.findElement(By.xpath("/html/body/div[4]/form/div[1]/li")).getText();
+		assertTrue(invalidCredentialErrorMessage.contains("These credentials do not match our records"));
 	}
 
 	@Step("Enter username and password")

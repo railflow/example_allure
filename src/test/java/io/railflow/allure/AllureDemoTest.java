@@ -14,14 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Step;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.railflow.allure.steps.LoginPage;
 
 @Epic("WebDriver and Allure Railflow Demo")
@@ -43,7 +36,7 @@ public class AllureDemoTest {
 		this.watcher.setWebDriver(this.driver);
 		this.driver.manage().window().maximize();
 		this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		this.driver.get("https://rwa.railflow.io/");
+		this.driver.get("https://test.railflow.io/");
 	}
 
 	@Severity(SeverityLevel.NORMAL)
@@ -65,7 +58,7 @@ public class AllureDemoTest {
 	@Story("Unsuccessful Login to Application")
 	public void invalid_credentials_error() {
 		final LoginPage loginPage = new LoginPage(this.driver);
-		loginPage.login("test", "password");
+		loginPage.login("test@railflow.io", "password");
 		loginPage.verifyErrorMessage();
 
 	}
@@ -78,15 +71,15 @@ public class AllureDemoTest {
 	@Story("Verify Success Login")
 	public void verify_success_login() {
 		final LoginPage loginPage = new LoginPage(this.driver);
-		loginPage.setUserName("Katharina_Bernier");
-		loginPage.setPassword("s3cret");
+		loginPage.setUserName("sergey@railflow.io");
+		loginPage.setPassword("myS3crEt");
 		loginPage.clickLogin();
 		assertLoginName();
 	}
 
 	@Step("Verify Login Name Displayed Properly")
 	private void assertLoginName() {
-		assertEquals("Katharina Bernier", this.driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div/div[1]/div[2]/h6[2]")).getText());
+		assertEquals("Sergey", this.driver.findElement(By.id("myAccountButton")).getText());
 	}
 
 }
